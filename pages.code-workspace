@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "pages"
+		},
+		{
+			"path": "public"
+		},
+		{
+			"path": "styles"
+		},
+		{
+			"path": ".next"
+		},
+		{
+			"path": "Components"
+		},
+		{
+			"path": "config"
+		},
+		{
+			"path": "node_modules"
+		}
+	]
+}
