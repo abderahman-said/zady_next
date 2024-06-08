@@ -38,8 +38,14 @@ export const getLastproduct = createAsyncThunk(
   'getLastproduct',
   async (object, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${url}/rest/test.product/getLastproductJson`);
-      return data;
+      const response = await axios({
+        method: 'GET',
+        url: `${url}/rest/test.product/getLastproductJson`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
