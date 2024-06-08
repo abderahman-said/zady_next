@@ -16,7 +16,7 @@ import SwiperCore, { Autoplay, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { addToCart, getFullCategory, getUserOrderDetails } from "../../../Components/redux/reducers/lorem/loremSlice"
+import { addToCart, getFullCategory, getUserOrderDetails } from "../../../Components/redux/reducers/lorem/loremSlice.js"
 import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'react-bootstrap';
 import { useRef } from 'react';
