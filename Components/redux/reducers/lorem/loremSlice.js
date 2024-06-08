@@ -20,21 +20,31 @@ export const getLorems = createAsyncThunk(
 );
 
 // Async thunk for getLastproduct
+// export const getLastproduct = createAsyncThunk(
+//   "getLastproduct",
+//   async (object, { getState, rejectWithValue }) => {
+//     console.log(getState());
+//     try {
+//       const { data } = await axios.get(
+//         `${url}/rest/test.product/getLastproductJson`
+//       );
+//       return data;
+//     } catch (error) {
+//       rejectWithValue(error.response);
+//     }
+//   }
+// );
 export const getLastproduct = createAsyncThunk(
-  "getLastproduct",
-  async (object, { getState, rejectWithValue }) => {
-    console.log(getState());
+  'getLastproduct',
+  async (object, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(
-        `${url}/rest/test.product/getLastproductJson`
-      );
+      const { data } = await axios.get(`${url}/rest/test.product/getLastproductJson`);
       return data;
     } catch (error) {
-      rejectWithValue(error.response);
+      return rejectWithValue(error.response.data);
     }
   }
 );
- 
  // Async thunk for getBanners
 export const getBanners = createAsyncThunk(
   "getBanners",

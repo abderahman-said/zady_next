@@ -131,7 +131,8 @@ function sala() {
     <div className="TotlaPrice">
       <h3>الملخص</h3>
       <div>
-        <p>السعر ( {getUserOrderDetails.length} عناصر )</p>
+        {/* <p>السعر ( {getUserOrderDetails.length} عناصر )</p> */}
+        <p>السعر 4  عناصر  </p>
         <p>0 ج</p>
       </div>
       <div>
