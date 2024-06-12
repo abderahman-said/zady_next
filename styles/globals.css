@@ -85,7 +85,12 @@ font-weight: bold;
   } 
 
 
-
+  .loader_l {
+    height: 20vh;
+    width: 20vh;
+    max-height: 480px;
+    min-width: 480px;
+  }
 
    .icon_g {
   position: absolute;
