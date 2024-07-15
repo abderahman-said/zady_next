@@ -25,6 +25,8 @@ import { useRouter } from "next/router";
 import { Logout } from "./redux/reducers/AuthSlice";
 
 function OffCanvasExample({ name, ...props }) {
+  const router = useRouter();
+ 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -58,35 +60,22 @@ function OffCanvasExample({ name, ...props }) {
       window.removeEventListener("scroll", handleScroll);
     };
   });
-
   const isFixed = scrollY > 100;
-  const router = useRouter();
-  // const Log =
-  //     !userId ? (
-  //   <Link href={"/auth"}  className={router.pathname == "/auth" ? styles.active : styles.link2} >
-  //        تسجيل الدخول
-  //   </Link>
-  // ) : (
-  //   <Link href={"/auth"}  onClick={() => {
-  //     dispatch(Logout());
-  //     window.localStorage.setItem('ib_ID' , 0)
-  //   }}   className={router.pathname == "/auth" ? styles.active : styles.link2} >
-  //       تسجيل الخروج
-  //   </Link>
-  // );
 
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await dispatch(searchProducts(searchTerm));
-
         setSearchResults(response.payload);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+
     dispatch(getLorems());
     dispatch(getSubCategories({ id: props.id }));
+
     if (searchTerm.trim() !== "") {
       fetchData();
     } else {
@@ -102,32 +91,24 @@ function OffCanvasExample({ name, ...props }) {
     const localStorageData = window.localStorage.getItem("zayadyStorage");
     const userId = window.localStorage.getItem("ib_ID");
     setUserId(userId);
-
-    setLocalStorageData(JSON.parse(localStorageData));
-  }, []);
-
-  // useEffect(() => {
-  //   const handelGetOrder = getUserOrderDetailsData?.lines || [];
-  //   const AllData = getUserOrderDetailsData
-  //     ? [...localStorageData, ...handelGetOrder]
-  //     : [];
-
-  //   const newCart = userId ? AllData.length : CartsArr?.lines.length || 0;
-  //   setCart(newCart);
-  // }, [localStorageData, getUserOrderDetailsData]);
-  useEffect(() => {
-    const handelGetOrder = getUserOrderDetailsData?.lines || [];
+  
+     setLocalStorageData(JSON.parse(localStorageData));
+  
+     const handelGetOrder = getUserOrderDetailsData?.lines || [];
     const AllData = getUserOrderDetailsData
-      ? [...(localStorageData || []), ...handelGetOrder]
+      ? [...(JSON.parse(localStorageData) || []), ...handelGetOrder]
       : [];
-
-    const newCart = userId ? AllData.length : (CartsArr?.lines?.length || 0);
+  
+    const newCart = userId ? AllData.length : CartsArr?.lines?.length || 0;
     setCart(newCart);
-  }, [localStorageData, getUserOrderDetailsData, userId, CartsArr]);
+  }, [getUserOrderDetailsData, CartsArr ,localStorageData  ]);
 
-  // const cart = userId ? AllData.length : CartsArr?.lines.length;
+  console.log("newCart" , localStorageData)
+  console.log("newCart" , cart)
+  console.log("userId" , userId)
 
 
+  
   return (
     <>
       <div className={`fixed-nav-div ${isFixed ? "fixed-nav" : ""}`}>
@@ -161,7 +142,12 @@ function OffCanvasExample({ name, ...props }) {
                 <div className="result-search">
                   {searchResults.products?.slice(0, 5).map((result) => (
                     <p className="flex-search-gap" key={result.id}>
-                      <Link>
+                      <Link
+                        href={`/product/id/${result.id}`}
+                        as={`/product/${result.id}/${encodeURIComponent(
+                          result.name.replace(/\s+/g, "-")
+                        )}`}
+                      >
                         <LazyLoadImage
                           loading="lazy"
                           src={`/api/images?id=${result.mainImage}`}

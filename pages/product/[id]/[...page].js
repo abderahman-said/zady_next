@@ -29,35 +29,26 @@ import Aos from "aos";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addToCart,
+
   getProductDetails,
   getUserOrderDetails,
 } from "../../../Components/redux/reducers/lorem/loremSlice";
+
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { FreeMode, Thumbs } from "swiper";
 import { Toast } from "primereact/toast";
+import { addToCart } from "../../../Components/redux/reducers/ShopSlice";
 
 const about = (props) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   const router = useRouter();
   const productId = router.query.id;
-  // const productId = parseInt(prod, 10);
 
-  //  const handleImageClick = (id) => {
-  //    const selectedImage = productData.imgs.imgs?.find((img) => img.small === id);
-  //    setSelectedImageId(selectedImage.large);
-  //  };
-  //  const [currentImage, setCurrentImage] = useState(0);
-  //  const [isViewerOpen, setIsViewerOpen] = useState(false);
-  //  const openImageViewer = () => {
-  //    setCurrentImage(0);
-  //    setIsViewerOpen(true);
-  //  };
-  //  const [productData, setProductData] = useState(null);
+ 
   const [selectedImageId, setSelectedImageId] = useState(null);
 
   const productData = useSelector((state) => state.lorem.getProductDetailsData);
@@ -73,30 +64,7 @@ const about = (props) => {
   }, [productId, dispatch]);
 
   const [value2, setValue2] = useState(1);
-
-  // const [activeIndex, setActiveIndex] = useState(0);
-  // const [show, setShow] = useState(false);
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
-  // async function handleAddToCart(catId, productId) {
-  //   const userId = typeof window !== 'undefined' && window.localStorage.getItem("ib_ID") || 0;
-
-  //   try {
-  //     if (!userId) {
-  //       router.push("/Auth/auth");
-  //     } else {
-  //       await dispatch(getUserOrderDetails({ id: userId }));
-  //       await dispatch(addToCart({ UserId: userId, productId, count: value2 }));
-  //       dispatch(getUserOrderDetails(data)).then(() => {
-  //         getCart();
-  //         // showSuccess();
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error('Error adding to cart:', error);
-  //   }
-  // }
-
+ 
   async function handleAddToCart(catId, productId, productName, productImage) {
     // setShow(false)
     showSuccess();
@@ -122,8 +90,7 @@ const about = (props) => {
     } else {
       try {
         await dispatch(getUserOrderDetails({ id: userId }));
-        await dispatch(addToCart({ UserId: userId, productId, count: value2 }));
-        dispatch(addToCart(data)).then(() => {
+        await dispatch(addToCart({ UserId: userId, productId, count: value2 })).then(() => {
           getCart();
           showSuccess();
         });
@@ -142,10 +109,6 @@ const about = (props) => {
     });
   };
 
-  const getCart = () => {
-    const ID = window.localStorage.getItem("ib_ID");
-    dispatch(getUserOrderDetails(ID));
-  };
 
   if (!productData) {
     return (
@@ -180,7 +143,7 @@ const about = (props) => {
           <div className={styles.imageGallery_left_button12}>
             <div className={styles.sala_contantp}>
               <div className="heart-card">
-                <i class="fa-regular fa-heart"></i>
+                <i className="fa-regular fa-heart"></i>
               </div>
               <div className="productData_name">
                 {productData && (
@@ -516,9 +479,10 @@ const about = (props) => {
           rows="4"
           cols="50"
           className={styles.textarea}
+          placeholder="   اضف تعليقك..."
           data-aos="fade-up"
         >
-          اضف تعليقك...
+       
         </textarea>
       </div>
       {/* ============ */}
@@ -586,111 +550,4 @@ const about = (props) => {
 };
 
 export default about;
-
-// import React, { useState, useEffect ,useCallback } from 'react';
-// import axios from 'axios';
-// import Image from 'next/image';
-// import { useRouter } from 'next/router';
-// import styles from '../styles/Home.module.css';
-// import { Container } from "react-bootstrap";
-// import ImageViewer from 'react-simple-image-viewer';
-// const about = (props) => {
-// const handleImageClick = (id) => {
-//   const selectedImage = productData.imgs.imgs.find((img) => img.small === id);
-//   setSelectedImageId(selectedImage.large);
-// };
-// const [currentImage, setCurrentImage] = useState(0);
-// const [isViewerOpen, setIsViewerOpen] = useState(false);
-// const openImageViewer = () => {
-//   setCurrentImage(0);
-//   setIsViewerOpen(true);
-// };
-//   const [productData, setProductData] = useState(null);
-//   const [selectedImageId, setSelectedImageId] = useState(null);
-//   const router = useRouter();
-//   const productId = router.query.id;
-//   useEffect(() => {
-//     if (productId) {
-//       axios.post('https://zayady.deltawy.com/rest/test.product/getProductDetails/', {
-//         "id": productId
-//         })
-//         .then((response) => {
-//           setProductData(response.data);
-//           console.log(response.data);
-//         })
-//         .catch((error) => {
-//           console.error(error);
-//         });
-//     }
-//   }, [productId]);
-// return (
-//   <Container style={{maxWidth: "1800px" }}>
-//     <div className={`${styles.imageGallery} ${styles.imageGallery_padding}`} >
-// {productData && (
-//   <div>
-//     <div onClick={openImageViewer} style={{display: 'flex',justifyContent: 'center'}} >
-//     {selectedImageId ? (
-//   <div onClick={openImageViewer} >
-//     <Image loading="lazy"alt=""
-//       src={`/api/images?id=${selectedImageId}`}
-//       alt=""
-//       width={600}
-//       height={600}
-//       className="replace_large"
-//     />
-//   </div>
-// ) : (
-//   <div onClick={openImageViewer}>
-//     <Image loading="lazy"alt=""
-//       src={`/api/images?id=${productData.imgs.imgs[0].large}`}
-//       alt=""
-//       width={600}
-//       height={600}
-//       className="replace_large"
-//     />
-//   </div>
-// )}
-//     </div>
-
-//     <div style={{display:'flex'}}>
-//       {productData.imgs.imgs?.map((image, index) => (
-//         <div
-//           key={index}
-//           onClick={() => handleImageClick(image.small)}
-//           style={{
-//             border: selectedImageId === image.medium ? '1px solid #ccc' : '',
-//             width: '100%',
-//             padding: '2px',
-//             marginBottom: '15px',
-//             cursor: 'pointer',
-//           }}
-//         >
-//           <Image loading="lazy"alt=""
-//             src={`/api/images?id=${image.small}`}
-//             alt=""
-//             width={190}
-//             height={170}
-//           />
-//         </div>
-//       ))}
-//     </div>
-// {isViewerOpen && (
-//         <Image loading="lazy"alt="" Viewer
-//         src={[`/api/images?id=${selectedImageId}`]}
-//         currentIndex={currentImage}
-//         onClose={() => setIsViewerOpen(false)}
-//           disableScroll={false}
-//           backgroundStyle={{
-//             backgroundColor: "#000",
-//             zIndex:'99999999',
-//           }}
-//           closeOnClickOutside={true}
-//         />
-//       )}
-//   </div>
-// )}
-//     </div>
-//   </Container>
-// );
-// }
-// export default about;
+ 

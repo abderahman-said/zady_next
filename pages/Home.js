@@ -56,81 +56,7 @@ function Home() {
   }, []);
   const [selectedCatId, setSelectedCatId] = useState(null);
 
-  if (!Lorem2) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          height: "100%",
-          position:"fixed",
-          left:"0",
-          top:"0",
-        }}
-      >
-        <svg
-          width="240"
-          height="240"
-          viewBox="0 0 240 240"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          class="loader_l"
-        >
-          <defs>
-            <path
-              id="move-path"
-              d="M102.546 83.5C109.859 70.8333 128.141 70.8333 135.454 83.5L157.971 122.5C165.284 135.167 156.143 151 141.517 151H96.4833C81.8571 151 72.7158 135.167 80.0289 122.5L102.546 83.5Z"
-              fill="#D9D9D9"
-            ></path>
-            <filter id="goo">
-              <feGaussianBlur
-                in="SourceGraphic"
-                stdDeviation="5"
-                result="blur"
-              ></feGaussianBlur>
-              <feColorMatrix
-                in="blur"
-                mode="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 60 -32"
-              ></feColorMatrix>
-            </filter>
-          </defs>
-          <g filter="url(#goo)">
-            <circle
-              cx="119"
-              cy="74"
-              r="20"
-              stroke="#0382b1"
-              stroke-width="8"
-            ></circle>
-            <circle
-              cx="79"
-              cy="141"
-              r="20"
-              stroke="#0382b1"
-              stroke-width="8"
-            ></circle>
-            <circle
-              cx="157"
-              cy="141"
-              r="20"
-              stroke="#0382b1"
-              stroke-width="8"
-            ></circle>
-            <circle cx="0" cy="0" r="14" fill="#0382b1">
-              <animateMotion
-                path="M102.546 83.5C109.859 70.8333 128.141 70.8333 135.454 83.5L157.971 122.5C165.284 135.167 156.143 151 141.517 151H96.4833C81.8571 151 72.7158 135.167 80.0289 122.5L102.546 83.5Z"
-                dur="2s"
-                repeatCount="indefinite"
-              ></animateMotion>
-            </circle>
-          </g>
-        </svg>
-      </div>
-    );
-  }
+ 
 
   const [activeId, setActiveId] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
@@ -200,7 +126,7 @@ function Home() {
                   <div className="a">
                     <div
                       className="part"
-                      data-aos="fade-up"
+                      
                       onMouseEnter={() => handleMouseEnter(e.id)}
                     >
                       <p>{e.name}</p>
@@ -330,7 +256,7 @@ function Home() {
                     e.name.replace(/\s+/g, "-")
                   )}`}
                 >
-                  <div className="flex-product" data-aos="fade-up">
+                  <div className="flex-product" >
                     <LazyLoadImage
                       loading="lazy"
                       src={`/api/images?id=${
@@ -413,7 +339,7 @@ function Home() {
                             product.name.replace(/\s+/g, "-")
                           )}`}
                           className="flex-product"
-                          data-aos="fade-up"
+                          
                           key={product.catId}
                         >
                           <LazyLoadImage
@@ -487,8 +413,8 @@ function Home() {
                     e.name.replace(/\s+/g, "-")
                   )}`}
                 >
-                  <div className="flex-product" data-aos="fade-up">
-                    <div className="flex-product-img" data-aos="fade-up">
+                  <div className="flex-product" >
+                    <div className="flex-product-img" >
                       <LazyLoadImage
                         loading="lazy"
                         src={`/api/images?id=${e.image}`}
@@ -518,8 +444,8 @@ function Home() {
         {/* =================================== */}
 
         {/* ================marks============ */}
-        <div className={styles.marks} data-aos="fade-up">
-          <div className={styles.markstext} data-aos="fade-up">
+        <div className={styles.marks} >
+          <div className={styles.markstext} >
             <h1>اشهر الماركات</h1>
           </div>
           <Swiper
@@ -576,13 +502,13 @@ function Home() {
             alt=""
             src={bannar1}
             style={{ maxWidth: "40%", height: "100%" }}
-            data-aos="fade-up"
+            
           ></Image>
 
-          <div className={styles.bannarleft} data-aos="fade-up">
+          <div className={styles.bannarleft} >
             <h2 style={{ fontSize: "bold" }}>حمل التطبيق الان</h2>
             <h6>واحصل على كل ما تحتاجه متى تحتاجه</h6>
-            <div className={styles.bannerapp} data-aos="fade-up">
+            <div className={styles.bannerapp} >
               <Link href="#">
                 <Image
                   loading="lazy"

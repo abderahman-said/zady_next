@@ -5,7 +5,7 @@ const url = "https://zayady.deltawy.com";
 
 // Async thunk for getLorems
 export const getLorems = createAsyncThunk(
-  "getLorems",
+  "lorem/getLorems",
   async (object, { getState, rejectWithValue }) => {
     console.log(getState());
     try {
@@ -86,27 +86,10 @@ export const getUserOrderDetails = createAsyncThunk(
     }
   }
 );
- // Async thunk for addToCart
  
- export const addToCart = createAsyncThunk(
-  'addToCart',
-  async ({ UserId, productId, count }, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        `${url}/rest/test.orderbill/addToCart`,
-        {
-          UserId,
-          productId,
-          count,
-        }
-      );
-      return response.data;
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-      return rejectWithValue(error.response);
-    }
-  }
-);
+ 
+
+
  // Async thunk for finishCart
 //  export const finishCart = createAsyncThunk(
 //   'finishCart',
@@ -216,13 +199,13 @@ export const getSubCategories = createAsyncThunk(
 );
  // Async thunk for getProductDetails
  export const getProductDetails = createAsyncThunk(
-  "getProductDetails",
+  'getProductDetails',
   async (productId, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${url}/rest/test.product/getProductDetails/`,
         {
-          "id": productId.productId
+          "id":productId.productId
         }
       );
       return response.data;
@@ -292,7 +275,6 @@ const loremSlice = createSlice({
     getProductDetailsData: [],
     searchProductsData: [],
     getUserOrderDetailsData: [],
-    addToCartData: [],
     // finishCartData: [],
     loading: false,
     isSuccess: false,
@@ -352,19 +334,7 @@ const loremSlice = createSlice({
       state.isSuccess = false;
       state.message = "failed";
     },
-    [addToCart.pending]: (state, action) => {
-      state.loading = true;
-    },
-    [addToCart.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.addToCartData = payload;
-      state.isSuccess = true;
-    },
-    [addToCart.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.isSuccess = false;
-      state.message = "failed";
-    },
+   
     [searchProducts.pending]: (state, action) => {
       state.loading = true;
     },
@@ -384,7 +354,7 @@ const loremSlice = createSlice({
     },
     [getproductJson.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.getproductJsonData = payload;
+      state.getproductJsonData = payload.products;
       state.isSuccess = true;
     },
     [getproductJson.rejected]: (state, { payload }) => {
@@ -423,7 +393,7 @@ const loremSlice = createSlice({
     },
     [getSubCategories.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.getSubCategoriesData = payload;
+      state.getSubCategoriesData = payload.cats;
       state.isSuccess = true;
     },
     [getSubCategories.rejected]: (state, { payload }) => {

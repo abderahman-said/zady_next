@@ -16,7 +16,7 @@ import SwiperCore, { Autoplay, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { addToCart, getFullCategory, getUserOrderDetails } from "../../../Components/redux/reducers/lorem/loremSlice.js"
+import {   getFullCategory, getUserOrderDetails } from "../../../Components/redux/reducers/lorem/loremSlice.js"
 import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'react-bootstrap';
 import { useRef } from 'react';
@@ -26,6 +26,7 @@ import { InputNumber } from 'primereact/inputnumber';
 import axios from 'axios';
 import { Paginator } from 'primereact/paginator';
 import Hero_store from "../../hero_store.js"
+import { addToCart } from '../../../Components/redux/reducers/ShopSlice.js';
 
 function LeftTabsExample() {
   const [searchValue, setSearchValue] = useState('');

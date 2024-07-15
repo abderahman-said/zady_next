@@ -94,7 +94,7 @@ const about = (props) => {
             
              <div className={styles.sala_contantp}>
           <div className="heart-card" >
-          <i class="fa-regular fa-heart"></i>
+          <i className="fa-regular fa-heart"></i>
             </div>
             {productData && (
             <>
@@ -409,8 +409,8 @@ const about = (props) => {
 </section>
 {/* ========================== */}
 <div style={{direction:'rtl'}} className={styles.imageGallery_padding}>
-<textarea rows="4" cols="50" className={styles.textarea} data-aos="fade-up">
-  اضف تعليقك...</textarea>
+        
+          <textarea rows="4"  cols="50" className={styles.textarea} data-aos="fade-up"  placeholder="   اضف تعليقك..." ></textarea>
 </div>
 {/* ============ */}
    <div className={styles.gal} data-aos="fade-up" style={{padding:"60px 0 60px 0"}}>

@@ -28,20 +28,8 @@ const ShopSlice = createSlice({
   initialState: {
     isLoading: false,
     error: null,
-    CartArr: null,
-    searchArr: [],
-    ShowSearch: true,
-    SetSearchInput: "",
     CartsArr: null,
     MainCatsArr: null,
-    SubCategoriesArr: null,
-    ProductsCats: [],
-    CtsproductArr: [],
-    TestProArr: [],
-    PDFUrl: "",
-    SubCatsArr: [],
-    OriginalImageArr: null,
-    UserFinishedBillsArr: null,
   },
   reducers: {
     searchChar: (state, action) => {
@@ -58,6 +46,10 @@ const ShopSlice = createSlice({
     [getUserOrderDetails.fulfilled]: (state, action) => {
       state.CartsArr = action.payload;
     },
+    // [addToCart.fulfilled]: (state, action) => {
+    //   // Update CartsArr with the new data after adding to cart
+    //   state.CartsArr = action.payload;
+    // },
     // [finishCart.fulfilled]: (state, action) => {
     // },
 

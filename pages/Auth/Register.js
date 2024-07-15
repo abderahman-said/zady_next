@@ -73,7 +73,7 @@ const Register = () => {
           } else {
             dispatch(getUserOrderDetails(originalPromiseResult.UserID));
             if(originalPromiseResult.ISAdmin === false) {
-              router.push("/cp");
+              router.push("/");
             }else {
               router.push("/");
             }
