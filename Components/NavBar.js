@@ -101,7 +101,7 @@ function OffCanvasExample({ name, ...props }) {
   
     const newCart = userId ? AllData.length : CartsArr?.lines?.length || 0;
     setCart(newCart);
-  }, [getUserOrderDetailsData, CartsArr ,localStorageData  ]);
+  }, [getUserOrderDetailsData, CartsArr ]);
 
   console.log("newCart" , localStorageData)
   console.log("newCart" , cart)
