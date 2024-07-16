@@ -26,30 +26,21 @@ import { Logout } from "./redux/reducers/AuthSlice";
 
 function OffCanvasExample({ name, ...props }) {
   const router = useRouter();
- 
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-
-  const dispatch = useDispatch();
   const loremsData = useSelector((state) => state.lorem.loremsData);
-  const getSubCategoriesData = useSelector(
-    (state) => state.lorem.getSubCategoriesData
-  );
+  const CartsArr = useSelector((state) => state.ShopSlice.CartsArr);
   const getUserOrderDetailsData = useSelector(
     (state) => state.lorem.getUserOrderDetailsData
   );
 
-  const { CartsArr } = useSelector((state) => state.ShopSlice);
   const [scrollY, setScrollY] = useState(0);
   const [userId, setUserId] = useState(false);
+  const [cart, setCart] = useState(0);
+
   useEffect(() => {
-    window.localStorage.getItem("ib_ID") != 0
-      ? setUserId(true)
-      : setUserId(false);
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
@@ -59,10 +50,8 @@ function OffCanvasExample({ name, ...props }) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  });
-  const isFixed = scrollY > 100;
+  }, []);
 
- 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -83,49 +72,28 @@ function OffCanvasExample({ name, ...props }) {
     }
   }, [searchTerm, dispatch, props.id]);
 
-  const [localStorageData, setLocalStorageData] = useState([]);
-
-  const [cart, setCart] = useState(0);
-
   useEffect(() => {
-    const localStorageData = window.localStorage.getItem("zayadyStorage");
-    const userId = window.localStorage.getItem("ib_ID");
-    setUserId(userId);
+    const cartCount = parseInt(window.localStorage.getItem("cartCount"));
+    const newCart = userId ? CartsArr?.lines?.length  : cartCount || 0;
+    setCart(newCart);  
+    console.log(cartCount + " cartCount");
+    console.log(cart + " cart");
+  }, [getUserOrderDetailsData, CartsArr]);
   
-     setLocalStorageData(JSON.parse(localStorageData));
-  
-     const handelGetOrder = getUserOrderDetailsData?.lines || [];
-    const AllData = getUserOrderDetailsData
-      ? [...(JSON.parse(localStorageData) || []), ...handelGetOrder]
-      : [];
-  
-    const newCart = userId ? AllData.length : CartsArr?.lines?.length || 0;
-    setCart(newCart);
-  }, [getUserOrderDetailsData, CartsArr ]);
+ 
 
-  console.log("newCart" , localStorageData)
-  console.log("newCart" , cart)
-  console.log("userId" , userId)
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const isFixed = scrollY > 100;
 
-
-  
   return (
     <>
       <div className={`fixed-nav-div ${isFixed ? "fixed-nav" : ""}`}>
         <div className={styles.navbar}>
-          <Container
-            style={{ maxWidth: "1800px" }}
-            className={styles.container}
-          >
+          <Container style={{ maxWidth: "1800px" }} className={styles.container}>
             <div className="nav-flex-between">
               <Link href="/Home">
-                <Image
-                  loading="lazy"
-                  alt=""
-                  src={logo}
-                  width={130}
-                  height={60}
-                ></Image>
+                <Image loading="lazy" alt="" src={logo} width={130} height={60} />
               </Link>
 
               <div className={styles.group}>
@@ -169,7 +137,7 @@ function OffCanvasExample({ name, ...props }) {
                     <i className="fa-solid fa-cart-shopping"></i>
 
                     <div className="sala-span">
-                      <span>{cart}</span>{" "}
+                      <span> {cart} </span> {" "}
                     </div>
                   </div>
                 </Link>
@@ -178,9 +146,7 @@ function OffCanvasExample({ name, ...props }) {
                     <Link
                       href={"/auth"}
                       className={
-                        router.pathname == "/auth"
-                          ? styles.active
-                          : styles.link2
+                        router.pathname == "/auth" ? styles.active : styles.link2
                       }
                     >
                       تسجيل الدخول
@@ -192,9 +158,7 @@ function OffCanvasExample({ name, ...props }) {
                         dispatch(Logout());
                       }}
                       className={
-                        router.pathname == "/auth"
-                          ? styles.active
-                          : styles.link2
+                        router.pathname == "/auth" ? styles.active : styles.link2
                       }
                     >
                       تسجيل الخروج
@@ -211,13 +175,7 @@ function OffCanvasExample({ name, ...props }) {
 
         <div className={styles.navbuttom}>
           <div onClick={handleShow} className={styles.m}>
-            <Image
-              loading="lazy"
-              alt=""
-              src={menu}
-              width={25}
-              height={25}
-            ></Image>
+            <Image loading="lazy" alt="" src={menu} width={25} height={25} />
           </div>
           <div className={styles.footerIconButtom}>
             <i className="fa-solid fa-cart-shopping"></i>
@@ -231,20 +189,9 @@ function OffCanvasExample({ name, ...props }) {
         </div>
       </div>
 
-      <Offcanvas
-        show={show}
-        onHide={handleClose}
-        {...props}
-        className="nav-mob"
-      >
+      <Offcanvas show={show} onHide={handleClose} {...props} className="nav-mob">
         <Offcanvas.Header closeButton>
-          <Image
-            loading="lazy"
-            alt=""
-            src={logo}
-            width={130}
-            height={60}
-          ></Image>
+          <Image loading="lazy" alt="" src={logo} width={130} height={60} />
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ul className="ul">
@@ -278,4 +225,5 @@ function Example() {
     </>
   );
 }
+
 export default Example;

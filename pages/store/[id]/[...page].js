@@ -118,29 +118,46 @@ function LeftTabsExample() {
   
 
 
-  async function handleAddToCart(catId, productId, productName, productImage) {
-    setShow(false)
-    showSuccess()
-    const localStorageData = window.localStorage.getItem('zayadyStorage');
-    const finishLocalStorage = JSON.parse(localStorageData);
-    const data = [...finishLocalStorage, { productId: productId, name: productName, image: productImage, code: 'QXA930B', count: 1 }]
-    // const userId = typeof window !== 'undefined' && window.localStorage.getItem("ib_ID") || 0;
-    const userId = window.localStorage.getItem('ib_ID') == 0 ? null : window.localStorage.getItem('ib_ID')
-    if (!userId) {
-      window.localStorage.setItem('zayadyStorage', JSON.stringify(data))
-    } else {
-      try {
-        await dispatch(getUserOrderDetails({ id: userId }));
-        await dispatch(addToCart({ UserId: userId, productId, count: value2 }));
-        dispatch(addToCart(data)).then(() => {
-          getCart();
-          showSuccess();
-        });
-      } catch (error) {
-        console.error('Error adding to cart:', error);
-      }
+async function handleAddToCart(catId, productId, productName, productImage) {
+  showSuccess();
+  
+  // Get existing localStorage data
+  const localStorageData = window.localStorage.getItem("zayadyStorage");
+  const finishLocalStorage = localStorageData ? JSON.parse(localStorageData) : [];
+  
+  // Prepare new item data to add
+  const newData = {
+    productId: productId,
+    name: productName,
+    image: productImage,
+    code: "QXA930B",
+    count: 1,
+  };
+  
+  // Update localStorage with new item
+  const updatedLocalStorageData = [...finishLocalStorage, newData];
+  window.localStorage.setItem("zayadyStorage", JSON.stringify(updatedLocalStorageData));
+  
+  // Update cart count in the interface
+  window.localStorage.setItem("cartCount", updatedLocalStorageData.length.toString());
+  
+  // Get userId from localStorage
+  const userId = window.localStorage.getItem("ib_ID");
+  
+  // If user is logged in, update cart on the server
+  if (userId) {
+    try {
+      await dispatch(getUserOrderDetails({ id: userId }));
+      await dispatch(addToCart({ UserId: userId, productId, count: 1 })).then(() => {
+        dispatch(getCart()); 
+        showSuccess();
+      });
+    } catch (error) {
+      console.error("Error adding to cart:", error);
     }
   }
+}
+
   const getCart = () => {
     const ID = window.localStorage.getItem("ib_ID");
     dispatch(getUserOrderDetails(ID));

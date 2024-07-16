@@ -29,7 +29,6 @@ import Aos from "aos";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch, useSelector } from "react-redux";
 import {
-
   getProductDetails,
   getUserOrderDetails,
 } from "../../../Components/redux/reducers/lorem/loremSlice";
@@ -48,7 +47,6 @@ const about = (props) => {
   const router = useRouter();
   const productId = router.query.id;
 
- 
   const [selectedImageId, setSelectedImageId] = useState(null);
 
   const productData = useSelector((state) => state.lorem.getProductDetailsData);
@@ -64,36 +62,44 @@ const about = (props) => {
   }, [productId, dispatch]);
 
   const [value2, setValue2] = useState(1);
- 
+
   async function handleAddToCart(catId, productId, productName, productImage) {
-    // setShow(false)
     showSuccess();
     const localStorageData = window.localStorage.getItem("zayadyStorage");
-    const finishLocalStorage = JSON.parse(localStorageData);
-    const data = [
-      ...finishLocalStorage,
-      {
-        productId: productId,
-        name: productName,
-        image: productImage,
-        code: "QXA930B",
-        count: 1,
-      },
-    ];
-    // const userId = typeof window !== 'undefined' && window.localStorage.getItem("ib_ID") || 0;
-    const userId =
-      window.localStorage.getItem("ib_ID") == 0
-        ? null
-        : window.localStorage.getItem("ib_ID");
-    if (!userId) {
-      window.localStorage.setItem("zayadyStorage", JSON.stringify(data));
-    } else {
+    const finishLocalStorage = localStorageData
+      ? JSON.parse(localStorageData)
+      : [];
+
+    const newData = {
+      productId: productId,
+      name: productName,
+      image: productImage,
+      code: "QXA930B",
+      count: 1,
+    };
+
+    // تحديث localStorage
+    const updatedLocalStorageData = [...finishLocalStorage, newData];
+    window.localStorage.setItem(
+      "zayadyStorage",
+      JSON.stringify(updatedLocalStorageData)
+    );
+
+    // تحديث عداد السلة في الواجهة
+    window.localStorage.setItem("cartCount", updatedLocalStorageData.length);
+
+    // الحصول على userId من localStorage
+    const userId = window.localStorage.getItem("ib_ID");
+
+    if (userId) {
       try {
         await dispatch(getUserOrderDetails({ id: userId }));
-        await dispatch(addToCart({ UserId: userId, productId, count: value2 })).then(() => {
-          getCart();
-          showSuccess();
-        });
+        await dispatch(addToCart({ UserId: userId, productId, count: 1 })).then(
+          () => {
+            dispatch(getCart());
+            showSuccess();
+          }
+        );
       } catch (error) {
         console.error("Error adding to cart:", error);
       }
@@ -108,7 +114,6 @@ const about = (props) => {
       detail: "تم اضافة المنتج بنجاح",
     });
   };
-
 
   if (!productData) {
     return (
@@ -481,9 +486,7 @@ const about = (props) => {
           className={styles.textarea}
           placeholder="   اضف تعليقك..."
           data-aos="fade-up"
-        >
-       
-        </textarea>
+        ></textarea>
       </div>
       {/* ============ */}
       <div
@@ -550,4 +553,3 @@ const about = (props) => {
 };
 
 export default about;
- 
